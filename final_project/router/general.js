@@ -52,8 +52,8 @@ public_users.get("/title/:title", function (req, res) {
   const allKeys = Object.keys(books);
 
   const bookByTitle = allKeys
-   .filter((key) => books[key].title === title)
-   .reduce((acc, key) => {
+    .filter((key) => books[key].title === title)
+    .reduce((acc, key) => {
       acc[key] = books[key];
       return acc;
     }, {});
@@ -67,8 +67,13 @@ public_users.get("/title/:title", function (req, res) {
 
 //  Get book review
 public_users.get("/review/:isbn", function (req, res) {
-  //Write your code here
-  return res.status(300).json({ message: "Yet to be implemented" });
+  const isbn = req.params.isbn;
+
+  if (books[isbn]) {
+    res.status(200).json(books[isbn].reviews);
+  } else {
+    res.status(404).json({ message: `No reviews found for ISBN: ${isbn}` });
+  }
 });
 
 module.exports.general = public_users;
